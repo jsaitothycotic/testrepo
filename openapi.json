@@ -1,0 +1,923 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Federation Identiy API",
+    "description": "Platform 2.0 Federation Identity Microservice API",
+    "termsOfService": "http://updates.thycotic.net/link.ashx?CloudManagerEULA",
+    "contact": {
+      "name": "Thycotic Client Services",
+      "email": "client.services@thycotic.com"
+    },
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "https://federation.tc.com"
+    }
+  ],
+  "paths": {
+    "/api/v1/tenants": {
+      "get": {
+        "tags": [
+          "Configure Tenants"
+        ],
+        "responses": {
+          "200": {
+            "description": "Tenants",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantsJsonArray"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Configure Tenants"
+        ],
+        "responses": {
+          "201": {
+            "description": "Created Tenant",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Tenant"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tenants/{tenantId}": {
+      "get": {
+        "tags": [
+          "Configure Tenants (Sys Admin)"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "tenantId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tenant",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Tenant"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Configure Tenants (Sys Admin)"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "tenantId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Tenant"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tenant",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Tenant"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tenants/self": {
+      "get": {
+        "tags": [
+          "Configure Tenants"
+        ],
+        "responses": {
+          "200": {
+            "description": "Tenant",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Tenant"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Configure Tenants"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Tenant"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tenant",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Tenant"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tenants/{tenantId}/oidc-providers": {
+      "get": {
+        "tags": [
+          "Configure OIDC Authentication Providers (Sys Admin)"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "required": true,
+            "name": "tenantId",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OidcAuthProvider",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OidcAuthProvidersJsonArray"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Configure OIDC Authentication Providers (Sys Admin)"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "required": true,
+            "name": "tenantId",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OidcAuthProvider"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OidcAuthProvider"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tenants/{tenantId}/saml-providers": {
+      "get": {
+        "tags": [
+          "Configure SAML Authentication Providers (Sys Admin)"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "required": true,
+            "name": "tenantId",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SamlAuthProvider",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SamlAuthProvidersJsonArray"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Configure SAML Authentication Providers (Sys Admin)"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "required": true,
+            "name": "tenantId",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SamlAuthProvider"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SamlAuthProvider"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tenants/self/oidc-providers": {
+      "get": {
+        "tags": [
+          "Configure OIDC Authentication Providers"
+        ],
+        "responses": {
+          "200": {
+            "description": "OidcAuthProvider",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OidcAuthProvidersJsonArray"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Configure OIDC Authentication Providers"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OidcAuthProvider"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OidcAuthProvider"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tenants/self/saml-providers": {
+      "get": {
+        "tags": [
+          "Configure SAML Authentication Providers"
+        ],
+        "responses": {
+          "200": {
+            "description": "SamlAuthProvider",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SamlAuthProvidersJsonArray"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Configure SAML Authentication Providers"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SamlAuthProvider"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SamlAuthProvider"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tenants/{tenantId}/oidc-providers/{oidcProviderId}": {
+      "get": {
+        "tags": [
+          "Configure OIDC Authentication Providers (Sys Admin)"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "required": true,
+            "name": "tenantId",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "required": true,
+            "name": "oidcProviderId",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "AuthProvider",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OidcAuthProvider"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Configure OIDC Authentication Providers (Sys Admin)"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "required": true,
+            "name": "tenantId",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "required": true,
+            "name": "oidcProviderId",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OidcAuthProvider"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OidcAuthProvider",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OidcAuthProvider"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tenants/{tenantId}/saml-providers/{samlProviderId}": {
+      "get": {
+        "tags": [
+          "Configure SAML Authentication Providers (Sys Admin)"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "required": true,
+            "name": "tenantId",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "required": true,
+            "name": "samlProviderId",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SamlAuthProvider",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SamlAuthProvider"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Configure SAML Authentication Providers (Sys Admin)"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "required": true,
+            "name": "tenantId",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "required": true,
+            "name": "samlProviderId",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SamlAuthProvider"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "SamlAuthProvider",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SamlAuthProvider"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tenants/self/oidc-providers/{oidcProviderId}": {
+      "get": {
+        "tags": [
+          "Configure OIDC Authentication Providers"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "required": true,
+            "name": "oidcProviderId",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OidcAuthProvider",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OidcAuthProvider"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Configure OIDC Authentication Providers"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "required": true,
+            "name": "oidcProviderId",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OidcAuthProvider"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "AuthProvider",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OidcAuthProvider"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tenants/self/saml-providers/{samlProviderId}": {
+      "get": {
+        "tags": [
+          "Configure SAML Authentication Providers"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "required": true,
+            "name": "samlProviderId",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SamlAuthProvider",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SamlAuthProvider"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Configure SAML Authentication Providers"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "required": true,
+            "name": "samlProviderId",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SamlAuthProvider"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "SamlAuthProvider",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SamlAuthProvider"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Tenant": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "readOnly": true
+          },
+          "name": {
+            "type": "string"
+          },
+          "authProviders": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OidcAuthProvider"
+            }
+          }
+        }
+      },
+      "OidcAuthProvider": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "readOnly": true
+          },
+          "description": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "clientId": {
+            "type": "string"
+          },
+          "clientSecret": {
+            "type": "string"
+          },
+          "callbackUrl": {
+            "type": "string"
+          }
+        }
+      },
+      "OidcAuthProvidersJsonArray": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "format": "int32",
+            "type": "integer",
+            "readOnly": true
+          },
+          "records": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OidcAuthProvider"
+            },
+            "readOnly": true
+          },
+          "total": {
+            "format": "int32",
+            "type": "integer",
+            "readOnly": true
+          }
+        }
+      },
+      "SamlAuthProvider": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "readOnly": true
+          },
+          "description": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "issuer": {
+            "type": "string"
+          },
+          "recipient": {
+            "type": "string"
+          }
+        }
+      },
+      "SamlAuthProvidersJsonArray": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "format": "int32",
+            "type": "integer",
+            "readOnly": true
+          },
+          "records": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SamlAuthProvider"
+            },
+            "readOnly": true
+          },
+          "total": {
+            "format": "int32",
+            "type": "integer",
+            "readOnly": true
+          }
+        }
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "status": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "detail": {
+            "type": "string"
+          },
+          "instance": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": {}
+      },
+      "TenantsJsonArray": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "format": "int32",
+            "type": "integer",
+            "readOnly": true
+          },
+          "records": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Tenant"
+            },
+            "readOnly": true
+          },
+          "total": {
+            "format": "int32",
+            "type": "integer",
+            "readOnly": true
+          }
+        }
+      }
+    }
+  }
+}
